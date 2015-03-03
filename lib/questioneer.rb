@@ -9,6 +9,7 @@ require "questioneer/question_mapper"
 require "questioneer/configuration"
 require "questioneer/extractor/gateway"
 require "questioneer/injector/gateway"
+require "require 'ruby-progressbar"
 module Questioneer
   extend SingleForwardable
   def_delegators :configuration, :logger, :start_path, :end_path, :login
@@ -37,9 +38,12 @@ module Questioneer
     #@@from_gateway = Injector::Gateway.new
   end
 
-  def self.run(times)
-    QuestionMapper.new.each_question.take(times).each do |q|
+  def self.run()
+    $progressbar = ProgressBar.create(:title => "Questions", :starting_at => 0, :total => 144)
+    QuestionMapper.new.each_question do |q|
+      $progressbar += 0.5
       Injector::Gateway.new.new_question(q)
+      $progressbar += 0.5
     end
   end
 end
