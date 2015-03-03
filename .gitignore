@@ -7,3 +7,9 @@
 /pkg/
 /spec/reports/
 /tmp/
+
+.travis.yml
+
+.rspec
+
+.travis.yml
